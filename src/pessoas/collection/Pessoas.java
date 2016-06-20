@@ -36,17 +36,18 @@ public final class Pessoas {
                 pessoas.add(new Pessoa(nome, telefone));
             }
         }
-      //  arquivo.delete();
     }
 
     public boolean add(Pessoa p) throws IOException {
         boolean add = this.pessoas.add(p);
-        FileWriter w = new FileWriter(arquivo, true);
-        BufferedWriter bf = new BufferedWriter(w);
-        bf.write(p.toString());
-        bf.newLine();
-        bf.close();
-
+//append somente se adicionou na coleção local (evita duplicar no arquivo)
+        if (add) {
+            FileWriter w = new FileWriter(arquivo, true);
+            BufferedWriter bf = new BufferedWriter(w);
+            bf.write(p.toString());
+            bf.newLine();
+            bf.close();
+        }
         return add;
     }
 
@@ -55,7 +56,6 @@ public final class Pessoas {
     }
 
     public boolean contains(Pessoa p) {
-
         return this.pessoas.contains(p);
     }
 

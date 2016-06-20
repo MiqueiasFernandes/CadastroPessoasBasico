@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import pessoas.model.Pessoa;
 import pessoas.collection.Pessoas;
 import pessoas.view.ListaPessoasView;
+import pessoas.view.MainView;
 
 /**
  *
@@ -24,15 +25,15 @@ import pessoas.view.ListaPessoasView;
  */
 public final class ListaPessoasPresenter {
 
-    private DefaultTableModel tm;
+    private DefaultTableModel defaultTableModel;
     private Pessoas pessoas;
     private ListaPessoasView view;
 
-    public ListaPessoasPresenter() {
+    public ListaPessoasPresenter(MainView mainView) {
         try {
             view = new ListaPessoasView();
             Object colunas[] = {"Nome", "Telefone"};
-            tm = new DefaultTableModel(colunas, 0);
+            defaultTableModel = new DefaultTableModel(colunas, 0);
 
             pessoas = new Pessoas();
             pessoas.carregaPessoas();
@@ -48,12 +49,12 @@ public final class ListaPessoasPresenter {
             view.getBtnFechar().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    view.setVisible(false);
-                    view.dispose();
+                    btnFechar(e);
                 }
             });
 
-            view.getJtPessoas().setModel(tm);
+            view.getJtPessoas().setModel(defaultTableModel);
+            view.setLocationRelativeTo(mainView);
             view.setVisible(true);
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(view, ex.getMessage());
@@ -62,13 +63,13 @@ public final class ListaPessoasPresenter {
     }
 
     private void carregaPessoas(Collection<Pessoa> c) {
-        tm.setNumRows(0);
+        defaultTableModel.setNumRows(0);
         Iterator<Pessoa> it = c.iterator();
         while (it.hasNext()) {
             Pessoa p = it.next();
             String pessoa = p.toString();
             String linha[] = pessoa.split(",");
-            tm.addRow(new Object[]{linha[0], linha[1]});
+            defaultTableModel.addRow(new Object[]{linha[0], linha[1]});
         }
     }
 
@@ -80,5 +81,10 @@ public final class ListaPessoasPresenter {
         } else {
             carregaPessoas(pessoas.getTreeSet());
         }
+    }
+
+    public void btnFechar(ActionEvent evt) {
+        view.setVisible(false);
+        view.dispose();
     }
 }

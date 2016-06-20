@@ -82,9 +82,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Ordem de telefone"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbOrdenarTelefoneActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnFechar">
           <Properties>

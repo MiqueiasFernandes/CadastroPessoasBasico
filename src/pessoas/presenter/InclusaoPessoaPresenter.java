@@ -6,41 +6,42 @@ import javax.swing.JOptionPane;
 import pessoas.model.Pessoa;
 import pessoas.collection.Pessoas;
 import pessoas.view.InclusaoPessoaView;
+import pessoas.view.MainView;
 
 public class InclusaoPessoaPresenter {
 
     private Pessoas pessoas;
     private InclusaoPessoaView view;
 
-    public InclusaoPessoaPresenter() {
-        java.awt.EventQueue.invokeLater(new Runnable() {
+    public InclusaoPessoaPresenter(MainView mainView) {
 
-            @Override
-            public void run() {
-                try {
-                    pessoas = new Pessoas();
-                    view = new InclusaoPessoaView();
-                    view.setVisible(true);
-                    view.getBtnSalvar().addActionListener(new java.awt.event.ActionListener() {
+        try {
+            pessoas = new Pessoas();
+            view = new InclusaoPessoaView();
 
-                        @Override
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                            btnSalvarPessoa(evt);
-                        }
-                    });
-                    view.getBtnFechar().addActionListener(new java.awt.event.ActionListener() {
+            view.getBtnSalvar().addActionListener(new java.awt.event.ActionListener() {
 
-                        @Override
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                            view.setVisible(false);
-                            view.dispose();
-                        }
-                    });
-                } catch (FileNotFoundException ex) {
-                    JOptionPane.showMessageDialog(view, ex.getMessage());
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnSalvarPessoa(evt);
                 }
-            }
-        });
+            });
+
+            view.getBtnFechar().addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnFechar(evt);
+                }
+            });
+
+            view.setLocationRelativeTo(mainView);
+            view.setVisible(true);
+
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(view, ex.getMessage());
+        }
+
     }
 
     public void btnSalvarPessoa(ActionEvent evt) {
@@ -61,9 +62,15 @@ public class InclusaoPessoaPresenter {
             } else {
                 throw new Exception("Você precisa informar os campos");
             }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(view, e.getMessage());
         }
 
+    }
+
+    public void btnFechar(ActionEvent evt) {
+        view.setVisible(false);
+        view.dispose();
     }
 }

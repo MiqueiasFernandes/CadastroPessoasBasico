@@ -24,8 +24,6 @@ public final class ListaPessoasView extends javax.swing.JFrame {
     /** Creates new form ListaPessoasView */
     public ListaPessoasView() {
         initComponents();
-        setLocationRelativeTo(this.getParent());
-       
     }
 
     public JButton getBtnFechar() {
@@ -61,11 +59,6 @@ public final class ListaPessoasView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jtPessoas);
 
         cbOrdenarTelefone.setText("Ordem de telefone");
-        cbOrdenarTelefone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbOrdenarTelefoneActionPerformed(evt);
-            }
-        });
 
         btnFechar.setText("Fechar");
 
@@ -107,10 +100,6 @@ public final class ListaPessoasView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cbOrdenarTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOrdenarTelefoneActionPerformed
-        // TODO add your handling code here:  
-    }//GEN-LAST:event_cbOrdenarTelefoneActionPerformed
 
   
  

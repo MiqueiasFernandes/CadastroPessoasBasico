@@ -23,7 +23,7 @@ public class MainPresenter {
         view.getAdicionarJItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                adicionar(e);
+                adicionar(e, view);
             }
 
         });
@@ -31,7 +31,7 @@ public class MainPresenter {
         view.getListarPessoasJItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                listarPessoas(e);
+                listarPessoas(e, view);
             }
         });
 
@@ -45,12 +45,12 @@ public class MainPresenter {
         view.setVisible(true);
     }
 
-    private static void adicionar(ActionEvent e) {
-        InclusaoPessoaPresenter presenterInclusaoPessoa = new InclusaoPessoaPresenter();
+    private static void adicionar(ActionEvent e, MainView view) {
+        InclusaoPessoaPresenter presenterInclusaoPessoa = new InclusaoPessoaPresenter(view);
     }
 
-    private static void listarPessoas(ActionEvent e) {
-        ListaPessoasPresenter listaPessoas = new ListaPessoasPresenter();
+    private static void listarPessoas(ActionEvent e, MainView view) {
+        ListaPessoasPresenter listaPessoas = new ListaPessoasPresenter(view);
     }
 
     private static void sair(ActionEvent e, MainView view) {
