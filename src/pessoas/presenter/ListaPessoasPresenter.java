@@ -41,13 +41,7 @@ public final class ListaPessoasPresenter {
             view.getCbOrdenarTelefone().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (view.getCbOrdenarTelefone().isSelected()) {
-                        ArrayList<Pessoa> lista = new ArrayList<Pessoa>(pessoas.getTreeSet());
-                        Collections.sort(lista, new ComparadorDeTelefonePessoa());
-                        carregaPessoas(lista);
-                    } else {
-                        carregaPessoas(pessoas.getTreeSet());
-                    }
+                    ordenarPorTelefone(e);
                 }
             });
 
@@ -75,6 +69,16 @@ public final class ListaPessoasPresenter {
             String pessoa = p.toString();
             String linha[] = pessoa.split(",");
             tm.addRow(new Object[]{linha[0], linha[1]});
+        }
+    }
+
+    public void ordenarPorTelefone(ActionEvent e) {
+        if (view.getCbOrdenarTelefone().isSelected()) {
+            ArrayList<Pessoa> lista = new ArrayList<Pessoa>(pessoas.getTreeSet());
+            Collections.sort(lista, new ComparadorDeTelefonePessoa());
+            carregaPessoas(lista);
+        } else {
+            carregaPessoas(pessoas.getTreeSet());
         }
     }
 }

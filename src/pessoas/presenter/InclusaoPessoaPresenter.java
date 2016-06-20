@@ -9,7 +9,7 @@ import pessoas.view.InclusaoPessoaView;
 
 public class InclusaoPessoaPresenter {
 
-    Pessoas pessoas;
+    private Pessoas pessoas;
     private InclusaoPessoaView view;
 
     public InclusaoPessoaPresenter() {

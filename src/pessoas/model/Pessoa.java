@@ -27,7 +27,8 @@ public class Pessoa implements Comparable<Pessoa>, Serializable{
                 + ","+ this.telefone;
     }
 
-    public int compareTo(Pessoa o) {
-        return nome.compareTo(o.nome);
+    @Override
+    public int compareTo(Pessoa pessoa) {
+        return nome.compareTo(pessoa.nome);
     }
 }  

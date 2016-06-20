@@ -1,7 +1,6 @@
 package pessoas.view;
 
-import pessoas.presenter.InclusaoPessoaPresenter;
-import pessoas.presenter.ListaPessoasPresenter;
+import javax.swing.JMenuItem;
 
 public class MainView extends javax.swing.JFrame {
 
@@ -10,7 +9,6 @@ public class MainView extends javax.swing.JFrame {
      */
     public MainView() {
         initComponents();
-        this.setLocationRelativeTo(this.getParent());
     }
 
     @SuppressWarnings("unchecked")
@@ -19,43 +17,23 @@ public class MainView extends javax.swing.JFrame {
 
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        adicionarJItem = new javax.swing.JMenuItem();
+        listarPessoasJItem = new javax.swing.JMenuItem();
+        sairJItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro de pessoas");
 
         jMenu1.setText("Opções");
-        jMenu1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu1ActionPerformed(evt);
-            }
-        });
 
-        jMenuItem1.setText("Adicionar");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem1);
+        adicionarJItem.setText("Adicionar");
+        jMenu1.add(adicionarJItem);
 
-        jMenuItem2.setText("Listar pessoas");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem2);
+        listarPessoasJItem.setText("Listar pessoas");
+        jMenu1.add(listarPessoasJItem);
 
-        jMenuItem3.setText("Sair");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem3);
+        sairJItem.setText("Sair");
+        jMenu1.add(sairJItem);
 
         jMenuBar1.add(jMenu1);
 
@@ -75,39 +53,23 @@ public class MainView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-    }//GEN-LAST:event_jMenu1ActionPerformed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        InclusaoPessoaPresenter presenterInclusaoPessoa = new InclusaoPessoaPresenter();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        ListaPessoasPresenter listaPessoas = new ListaPessoasPresenter();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        this.dispose();
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new MainView().setVisible(true);
-            }
-        });
+    public JMenuItem getAdicionarJItem() {
+        return adicionarJItem;
     }
+
+    public JMenuItem getListarPessoasJItem() {
+        return listarPessoasJItem;
+    }
+
+    public JMenuItem getSairJItem() {
+        return sairJItem;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem adicionarJItem;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem listarPessoasJItem;
+    private javax.swing.JMenuItem sairJItem;
     // End of variables declaration//GEN-END:variables
 }

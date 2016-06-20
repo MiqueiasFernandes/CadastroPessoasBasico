@@ -20,7 +20,7 @@ public final class Pessoas {
         if (pessoas == null) {
             pessoas = new TreeSet<Pessoa>();
         }
-        arquivo = new File("src/pessoas/data/pessoas.txt");
+        arquivo = new File("data/pessoas.txt");
         carregaPessoas();
     }
 
@@ -36,8 +36,7 @@ public final class Pessoas {
                 pessoas.add(new Pessoa(nome, telefone));
             }
         }
-        arquivo.delete();
-
+      //  arquivo.delete();
     }
 
     public boolean add(Pessoa p) throws IOException {
