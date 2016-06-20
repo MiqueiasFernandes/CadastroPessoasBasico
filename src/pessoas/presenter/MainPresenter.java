@@ -6,7 +6,7 @@
 package pessoas.presenter;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import pessoas.view.MainView;
 
 /**
@@ -20,26 +20,20 @@ public class MainPresenter {
 
         view.setLocationRelativeTo(view.getParent());
 
-        view.getAdicionarJItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                adicionar(e, view);
-            }
-
+        view.getAdicionarJItem().addActionListener((ActionEvent e) -> {
+            adicionar(e, view);
         });
 
-        view.getListarPessoasJItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                listarPessoas(e, view);
-            }
+        view.getListarPessoasJItem().addActionListener((ActionEvent e) -> {
+            listarPessoas(e, view);
         });
 
-        view.getSairJItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sair(e, view);
-            }
+        view.getConfigurarJItem().addActionListener((ActionEvent e) -> {
+            configurar(e, view);
+        });
+
+        view.getSairJItem().addActionListener((ActionEvent e) -> {
+            sair(e, view);
         });
 
         view.setVisible(true);
@@ -51,6 +45,10 @@ public class MainPresenter {
 
     private static void listarPessoas(ActionEvent e, MainView view) {
         ListaPessoasPresenter listaPessoas = new ListaPessoasPresenter(view);
+    }
+
+    private static void configurar(ActionEvent e, MainView view) {
+        ConfiguracaoPresenter configuracaoPresenter = new ConfiguracaoPresenter(view);
     }
 
     private static void sair(ActionEvent e, MainView view) {

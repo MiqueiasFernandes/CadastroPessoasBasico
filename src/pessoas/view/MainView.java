@@ -19,6 +19,7 @@ public class MainView extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         adicionarJItem = new javax.swing.JMenuItem();
         listarPessoasJItem = new javax.swing.JMenuItem();
+        configurarJItem = new javax.swing.JMenuItem();
         sairJItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -31,6 +32,9 @@ public class MainView extends javax.swing.JFrame {
 
         listarPessoasJItem.setText("Listar pessoas");
         jMenu1.add(listarPessoasJItem);
+
+        configurarJItem.setText("Configurar");
+        jMenu1.add(configurarJItem);
 
         sairJItem.setText("Sair");
         jMenu1.add(sairJItem);
@@ -61,12 +65,17 @@ public class MainView extends javax.swing.JFrame {
         return listarPessoasJItem;
     }
 
+    public JMenuItem getConfigurarJItem() {
+        return configurarJItem;
+    }
+
     public JMenuItem getSairJItem() {
         return sairJItem;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem adicionarJItem;
+    private javax.swing.JMenuItem configurarJItem;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem listarPessoasJItem;

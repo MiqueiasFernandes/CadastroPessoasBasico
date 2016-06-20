@@ -59,7 +59,6 @@ public class InclusaoPessoaView extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnFechar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inclusão de Pessoa");
         setResizable(false);
 

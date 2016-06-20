@@ -19,6 +19,11 @@
                 <Property name="text" type="java.lang.String" value="Listar pessoas"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="configurarJItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Configurar"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="sairJItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sair"/>
