@@ -18,7 +18,7 @@ import javax.swing.JTable;
  *
  * @author Clayton
  */
-public final class ListaPessoasView extends javax.swing.JFrame {
+public final class ListaPessoasView extends javax.swing.JInternalFrame {
 
 
     /** Creates new form ListaPessoasView */

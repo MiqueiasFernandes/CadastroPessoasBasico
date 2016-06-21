@@ -12,7 +12,7 @@ import javax.swing.JTextField;
  *
  * @author mfernandes
  */
-public class UsuarioView extends javax.swing.JFrame {
+public class UsuarioView extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form UsuarioView

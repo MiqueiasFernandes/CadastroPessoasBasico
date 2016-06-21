@@ -6,7 +6,14 @@
 package pessoas.presenter;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
+import java.io.FileInputStream;
+import java.lang.reflect.Constructor;
+import java.util.Properties;
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import pessoas.collection.IPessoaDAO;
+import pessoas.log.ILogDAO;
+import pessoas.log.LogSingleton;
 import pessoas.view.MainView;
 
 /**
@@ -15,45 +22,117 @@ import pessoas.view.MainView;
  */
 public class MainPresenter {
 
-    public static void main(String[] args) {
-        final MainView view = new MainView();
+    private MainView view;
+    private IPessoaDAO pessoas;
+    private ILogDAO logDao;
+
+    public MainPresenter() {
+        view = new MainView();
+
+        pessoas = carregaDAOPessoa();
+        logDao = carregaDAOLog();
 
         view.setLocationRelativeTo(view.getParent());
 
         view.getAdicionarJItem().addActionListener((ActionEvent e) -> {
-            adicionar(e, view);
+            adicionar(e);
         });
 
         view.getListarPessoasJItem().addActionListener((ActionEvent e) -> {
-            listarPessoas(e, view);
+            listarPessoas(e);
         });
 
         view.getConfigurarJItem().addActionListener((ActionEvent e) -> {
-            configurar(e, view);
+            configurar(e);
         });
 
         view.getSairJItem().addActionListener((ActionEvent e) -> {
-            sair(e, view);
+            sair(e);
         });
 
+        //  LogSingleton.getInstancia().setPresenter(new LoginPresenter(view));
         view.setVisible(true);
     }
 
-    private static void adicionar(ActionEvent e, MainView view) {
-        InclusaoPessoaPresenter presenterInclusaoPessoa = new InclusaoPessoaPresenter(view);
+    void addFrame(JInternalFrame frame) {
+        view.getjDesktopPane().add(frame);
+        view.pack();
     }
 
-    private static void listarPessoas(ActionEvent e, MainView view) {
-        ListaPessoasPresenter listaPessoas = new ListaPessoasPresenter(view);
+    private void adicionar(ActionEvent e) {
+        InclusaoPessoaPresenter presenterInclusaoPessoa = new InclusaoPessoaPresenter(pessoas);
+        addFrame(presenterInclusaoPessoa.getView());
     }
 
-    private static void configurar(ActionEvent e, MainView view) {
+    private void listarPessoas(ActionEvent e) {
+        ListaPessoasPresenter listaPessoas = new ListaPessoasPresenter(pessoas);
+        addFrame(listaPessoas.getView());
+    }
+
+    private void configurar(ActionEvent e) {
         ConfiguracaoPresenter configuracaoPresenter = new ConfiguracaoPresenter(view);
+        addFrame(configuracaoPresenter.getView());
     }
 
-    private static void sair(ActionEvent e, MainView view) {
+    private void sair(ActionEvent e) {
         view.setVisible(false);
         view.dispose();
+    }
+
+    public IPessoaDAO carregaDAOPessoa() {
+        IPessoaDAO classeDAO = null;
+        try {
+            Properties properties = new Properties();
+            FileInputStream fis = new FileInputStream("data/dao.properties");
+            properties.load(fis);
+            String dao = properties.getProperty("daoPessoa");
+
+            Class classe = Class.forName(dao);
+            Constructor constructor = classe.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            Object instance = constructor.newInstance();
+
+            classeDAO = (IPessoaDAO) instance;
+
+        } catch (Exception e) {
+            try {
+                throw new Exception("Não foi possível carregar a classe: \n\n\t" + e.getMessage()
+                        + "\n\n Atribua uma clase válida à chave \"dao\", no arquivo dao.properties ");
+            } catch (Exception ex) {
+
+                JOptionPane.showMessageDialog(view, ex.getMessage());
+                System.exit(0);
+            }
+        }
+        return classeDAO;
+    }
+
+    public ILogDAO carregaDAOLog() {
+        ILogDAO classeDAO = null;
+        try {
+            Properties properties = new Properties();
+            FileInputStream fis = new FileInputStream("data/dao.properties");
+            properties.load(fis);
+            String dao = properties.getProperty("daoLog");
+
+            Class classe = Class.forName(dao);
+            Constructor constructor = classe.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            Object instance = constructor.newInstance();
+
+            classeDAO = (ILogDAO) instance;
+
+        } catch (Exception e) {
+            try {
+                throw new Exception("Não foi possível carregar a classe: \n\n\t" + e.getMessage()
+                        + "\n\n Atribua uma clase válida à chave \"dao\", no arquivo dao.properties ");
+            } catch (Exception ex) {
+
+                JOptionPane.showMessageDialog(view, ex.getMessage());
+                System.exit(0);
+            }
+        }
+        return classeDAO;
     }
 
 }

@@ -40,12 +40,12 @@ public class LoginPresenter {
 
     private void listarUsuarios() {
         boolean flag = true;
-        for (String linha : logSingleton.getLinhas()) {
-            if (linha.contains("usuario adicionado ")) {
-                usuarios.add(getUsuario(linha, flag));
-                flag = false;
-            }
-        }
+//        for (String linha : logSingleton.getLinhas()) {
+//            if (linha.contains("usuario adicionado ")) {
+//                usuarios.add(getUsuario(linha, flag));
+//                flag = false;
+//            }
+//        }
     }
 
     private Usuario getUsuario(String linha, boolean flag) {

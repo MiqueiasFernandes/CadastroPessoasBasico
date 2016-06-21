@@ -12,30 +12,32 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.TreeSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import pessoas.collection.IPessoaDAO;
+import pessoas.collection.oserver.Observer;
 import pessoas.model.Pessoa;
-import pessoas.collection.Pessoas;
 import pessoas.view.ListaPessoasView;
-import pessoas.view.MainView;
 
 /**
  *
  * @author clayton
  */
-public final class ListaPessoasPresenter {
+public final class ListaPessoasPresenter implements Observer {
 
     private DefaultTableModel defaultTableModel;
-    private Pessoas pessoas;
+    private IPessoaDAO pessoas;
     private ListaPessoasView view;
 
-    public ListaPessoasPresenter(MainView mainView) {
+    public ListaPessoasPresenter(IPessoaDAO pessoas) {
         try {
             view = new ListaPessoasView();
             Object colunas[] = {"Nome", "Telefone"};
             defaultTableModel = new DefaultTableModel(colunas, 0);
 
-            pessoas = new Pessoas();
+            this.pessoas = pessoas;
+            this.pessoas.addObserver(this);
             pessoas.carregaPessoas();
             carregaPessoas(pessoas.getTreeSet());
 
@@ -54,7 +56,6 @@ public final class ListaPessoasPresenter {
             });
 
             view.getJtPessoas().setModel(defaultTableModel);
-            view.setLocationRelativeTo(mainView);
             view.setVisible(true);
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(view, ex.getMessage());
@@ -87,4 +88,14 @@ public final class ListaPessoasPresenter {
         view.setVisible(false);
         view.dispose();
     }
+
+    public ListaPessoasView getView() {
+        return view;
+    }
+
+    @Override
+    public void atualiza(TreeSet<Pessoa> pessoas) {
+        carregaPessoas(pessoas);
+    }
+
 }

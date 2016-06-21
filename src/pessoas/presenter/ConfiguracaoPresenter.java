@@ -7,15 +7,11 @@ package pessoas.presenter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import pessoas.log.LogStrategy;
-import pessoas.log.LogStrategyTEXT;
-import pessoas.log.LogStrategyXML;
+import pessoas.log.ILogDAO;
+import pessoas.log.LogDAOTXT;
 import pessoas.log.LogSingleton;
-import pessoas.model.Usuario;
 import pessoas.view.ConfiguracaoView;
 import pessoas.view.MainView;
 import pessoas.view.UsuarioView;
@@ -26,7 +22,7 @@ import pessoas.view.UsuarioView;
  */
 public class ConfiguracaoPresenter {
 
-    ConfiguracaoView view;
+    private ConfiguracaoView view;
 
     public ConfiguracaoPresenter(MainView mainView) {
         this.view = new ConfiguracaoView();
@@ -41,22 +37,17 @@ public class ConfiguracaoPresenter {
             sairBtn(e);
         });
 
-        try {
-            this.view.getTipoLogJComboBox().addItem(new LogStrategyTEXT());
-            this.view.getTipoLogJComboBox().addItem(new LogStrategyXML());
-        } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(mainView, "ERRO " + ex);
-        }
+        this.view.getTipoLogJComboBox().addItem(new LogDAOTXT());
 
         this.view.getTipoLogJComboBox().addActionListener((ActionEvent e) -> {
             tipoLogAlterado(e, view.getTipoLogJComboBox());
         });
 
-        this.view.setLocationRelativeTo(mainView);
+        mainView.getjDesktopPane().add(view);
         this.view.setVisible(true);
     }
 
-    void tipoLogAlterado(ActionEvent e, JComboBox<LogStrategy> jComboBox) {
+    void tipoLogAlterado(ActionEvent e, JComboBox<ILogDAO> jComboBox) {
         LogSingleton.getInstancia().setTipoLog(jComboBox.getItemAt(jComboBox.getSelectedIndex()));
     }
 
@@ -82,7 +73,6 @@ public class ConfiguracaoPresenter {
 
             }
         });
-
         view.setVisible(true);
     }
 

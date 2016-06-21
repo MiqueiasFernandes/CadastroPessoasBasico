@@ -9,13 +9,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
-import pessoas.log.LogStrategy;
+import pessoas.log.ILogDAO;
 
 /**
  *
  * @author mfernandes
  */
-public class ConfiguracaoView extends javax.swing.JFrame {
+public class ConfiguracaoView extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form ConfiguracaoView
@@ -130,7 +130,7 @@ public class ConfiguracaoView extends javax.swing.JFrame {
         return LogJTabbedPane;
     }
 
-    public JComboBox<LogStrategy> getTipoLogJComboBox() {
+    public JComboBox<ILogDAO> getTipoLogJComboBox() {
         return tipoLogJComboBox;
     }
 
@@ -155,7 +155,7 @@ public class ConfiguracaoView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton sairBtn;
-    private javax.swing.JComboBox<LogStrategy> tipoLogJComboBox;
+    private javax.swing.JComboBox<ILogDAO> tipoLogJComboBox;
     private javax.swing.JLabel usuarioLbl;
     // End of variables declaration//GEN-END:variables
 }

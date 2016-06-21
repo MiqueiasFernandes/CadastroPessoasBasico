@@ -1,46 +1,39 @@
 package pessoas.presenter;
 
 import java.awt.event.ActionEvent;
-import java.io.FileNotFoundException;
 import javax.swing.JOptionPane;
+import pessoas.collection.IPessoaDAO;
 import pessoas.model.Pessoa;
-import pessoas.collection.Pessoas;
 import pessoas.view.InclusaoPessoaView;
-import pessoas.view.MainView;
 
 public class InclusaoPessoaPresenter {
 
-    private Pessoas pessoas;
+    private IPessoaDAO pessoas;
     private InclusaoPessoaView view;
 
-    public InclusaoPessoaPresenter(MainView mainView) {
+    public InclusaoPessoaPresenter(IPessoaDAO pessoas) {
 
-        try {
-            pessoas = new Pessoas();
-            view = new InclusaoPessoaView();
+        view = new InclusaoPessoaView();
 
-            view.getBtnSalvar().addActionListener(new java.awt.event.ActionListener() {
+        this.pessoas = pessoas;
 
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    btnSalvarPessoa(evt);
-                }
-            });
+        view.getBtnSalvar().addActionListener(new java.awt.event.ActionListener() {
 
-            view.getBtnFechar().addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarPessoa(evt);
+            }
+        });
 
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    btnFechar(evt);
-                }
-            });
+        view.getBtnFechar().addActionListener(new java.awt.event.ActionListener() {
 
-            view.setLocationRelativeTo(mainView);
-            view.setVisible(true);
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFechar(evt);
+            }
+        });
 
-        } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(view, ex.getMessage());
-        }
+        view.setVisible(true);
 
     }
 
@@ -73,4 +66,9 @@ public class InclusaoPessoaPresenter {
         view.setVisible(false);
         view.dispose();
     }
+
+    public InclusaoPessoaView getView() {
+        return view;
+    }
+
 }

@@ -18,7 +18,7 @@ import javax.swing.JTextField;
  *
  * @author Clayton
  */
-public class InclusaoPessoaView extends javax.swing.JFrame {
+public class InclusaoPessoaView extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form InclusaoView

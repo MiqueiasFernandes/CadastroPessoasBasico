@@ -7,33 +7,15 @@ package pessoas.log;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
-public class LogStrategyTEXT implements LogStrategy {
+public class LogDAOTXT implements ILogDAO {
 
-    private final File arquivo;
-    private ArrayList<String> linhas;
+    private File arquivo;
 
-    public LogStrategyTEXT() throws FileNotFoundException {
+    public LogDAOTXT() {
         arquivo = new File(LogSingleton.getInstancia().getLogpPath() + ".txt");
-        linhas = new ArrayList<>();
-        carregaLog();
-    }
-
-    public void carregaLog() throws FileNotFoundException {
-        Scanner scanner = new Scanner(arquivo);
-        while (scanner.hasNextLine()) {
-            linhas.add(scanner.nextLine());
-        }
-    }
-
-    @Override
-    public String[] getLinhas() {
-        return linhas.toArray(new String[0]);
     }
 
     @Override

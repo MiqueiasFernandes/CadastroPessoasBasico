@@ -16,7 +16,7 @@ public final class LogSingleton {
 
     private static final String logpPath = "data/log";
     private static LogSingleton instancia;
-    private LogStrategy strategy;
+    private ILogDAO logdao;
     private Usuario usuario;
     private LoginPresenter presenter;
 
@@ -30,8 +30,8 @@ public final class LogSingleton {
         return instancia;
     }
 
-    public void setTipoLog(LogStrategy strategy) {
-        this.strategy = strategy;
+    public void setTipoLog(ILogDAO logdao) {
+        this.logdao = logdao;
     }
 
     public Usuario getUsuario() {
@@ -53,10 +53,6 @@ public final class LogSingleton {
         }
 
         return usuario != null;
-    }
-
-    public String[] getLinhas() {
-        return strategy.getLinhas();
     }
 
     public LoginPresenter getPresenter() {

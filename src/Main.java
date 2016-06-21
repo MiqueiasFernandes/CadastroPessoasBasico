@@ -1,18 +1,18 @@
+
+import pessoas.presenter.MainPresenter;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pessoas.log;
-
 /**
  *
  * @author mfernandes
  */
-public interface LogStrategy {
+public class Main {
 
-    public String[] getLinhas();
-
-    public void append(String mensagem) throws Exception;
-
+    public static void main(String[] args) {
+        new MainPresenter();
+    }
 }
