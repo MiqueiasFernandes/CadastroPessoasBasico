@@ -17,21 +17,9 @@ public class InclusaoPessoaPresenter {
 
         this.pessoas = pessoas;
 
-        view.getBtnSalvar().addActionListener(new java.awt.event.ActionListener() {
+        view.getBtnSalvar().addActionListener(this::btnSalvarPessoa);
 
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarPessoa(evt);
-            }
-        });
-
-        view.getBtnFechar().addActionListener(new java.awt.event.ActionListener() {
-
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFechar(evt);
-            }
-        });
+        view.getBtnFechar().addActionListener(this::btnFechar);
 
         view.setVisible(true);
 

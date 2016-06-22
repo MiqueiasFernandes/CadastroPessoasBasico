@@ -6,14 +6,12 @@
 package pessoas.presenter;
 
 import java.awt.event.ActionEvent;
-import java.io.FileInputStream;
-import java.lang.reflect.Constructor;
-import java.util.Properties;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import pessoas.collection.IPessoaDAO;
-import pessoas.log.ILogDAO;
-import pessoas.log.LogSingleton;
+import pessoas.model.Login;
+import pessoas.proxy.PessoaDAOProxy;
 import pessoas.view.MainView;
 
 /**
@@ -22,15 +20,16 @@ import pessoas.view.MainView;
  */
 public class MainPresenter {
 
-    private MainView view;
-    private IPessoaDAO pessoas;
-    private ILogDAO logDao;
+    private final MainView view;
+    private final IPessoaDAO pessoas;
 
-    public MainPresenter() {
+    public MainPresenter() throws FileNotFoundException, IOException, Exception {
         view = new MainView();
 
-        pessoas = carregaDAOPessoa();
-        logDao = carregaDAOLog();
+        Login.getInstancia().setView(view);
+        Login.getInstancia().carregaDAOUsuario();
+
+        pessoas = new PessoaDAOProxy(view);
 
         view.setLocationRelativeTo(view.getParent());
 
@@ -50,7 +49,6 @@ public class MainPresenter {
             sair(e);
         });
 
-        //  LogSingleton.getInstancia().setPresenter(new LoginPresenter(view));
         view.setVisible(true);
     }
 
@@ -70,69 +68,13 @@ public class MainPresenter {
     }
 
     private void configurar(ActionEvent e) {
-        ConfiguracaoPresenter configuracaoPresenter = new ConfiguracaoPresenter(view);
+        ConfiguracaoPresenter configuracaoPresenter = new ConfiguracaoPresenter();
         addFrame(configuracaoPresenter.getView());
     }
 
     private void sair(ActionEvent e) {
         view.setVisible(false);
         view.dispose();
-    }
-
-    public IPessoaDAO carregaDAOPessoa() {
-        IPessoaDAO classeDAO = null;
-        try {
-            Properties properties = new Properties();
-            FileInputStream fis = new FileInputStream("data/dao.properties");
-            properties.load(fis);
-            String dao = properties.getProperty("daoPessoa");
-
-            Class classe = Class.forName(dao);
-            Constructor constructor = classe.getDeclaredConstructor();
-            constructor.setAccessible(true);
-            Object instance = constructor.newInstance();
-
-            classeDAO = (IPessoaDAO) instance;
-
-        } catch (Exception e) {
-            try {
-                throw new Exception("Não foi possível carregar a classe: \n\n\t" + e.getMessage()
-                        + "\n\n Atribua uma clase válida à chave \"dao\", no arquivo dao.properties ");
-            } catch (Exception ex) {
-
-                JOptionPane.showMessageDialog(view, ex.getMessage());
-                System.exit(0);
-            }
-        }
-        return classeDAO;
-    }
-
-    public ILogDAO carregaDAOLog() {
-        ILogDAO classeDAO = null;
-        try {
-            Properties properties = new Properties();
-            FileInputStream fis = new FileInputStream("data/dao.properties");
-            properties.load(fis);
-            String dao = properties.getProperty("daoLog");
-
-            Class classe = Class.forName(dao);
-            Constructor constructor = classe.getDeclaredConstructor();
-            constructor.setAccessible(true);
-            Object instance = constructor.newInstance();
-
-            classeDAO = (ILogDAO) instance;
-
-        } catch (Exception e) {
-            try {
-                throw new Exception("Não foi possível carregar a classe: \n\n\t" + e.getMessage()
-                        + "\n\n Atribua uma clase válida à chave \"dao\", no arquivo dao.properties ");
-            } catch (Exception ex) {
-
-                JOptionPane.showMessageDialog(view, ex.getMessage());
-                System.exit(0);
-            }
-        }
-        return classeDAO;
     }
 
 }

@@ -17,12 +17,12 @@ public class Usuario implements Comparable<Usuario> {
 
     private final String nome;
     private final String senha;
-    private final boolean isAdministrador;
+    private final boolean isadministrador;
 
     public Usuario(String nome, String senha, boolean isAdministrador) {
         this.nome = nome;
         this.senha = senha;
-        this.isAdministrador = isAdministrador;
+        this.isadministrador = isAdministrador;
     }
 
     public String getNome() {
@@ -34,11 +34,7 @@ public class Usuario implements Comparable<Usuario> {
     }
 
     public boolean isAdministrador() {
-        return isAdministrador;
-    }
-
-    public boolean comparaSenha(String senha) {
-        return this.senha.equals(senha);
+        return isadministrador;
     }
 
     public String getHash() throws UnsupportedEncodingException, NoSuchAlgorithmException {

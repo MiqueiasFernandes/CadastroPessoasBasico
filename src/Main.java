@@ -1,4 +1,8 @@
 
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import pessoas.presenter.MainPresenter;
 
 /*
@@ -13,6 +17,15 @@ import pessoas.presenter.MainPresenter;
 public class Main {
 
     public static void main(String[] args) {
-        new MainPresenter();
+
+        try {
+            new MainPresenter();
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Houve um erro ao inicializar o programa\n"
+                    + "contate o administrador. detales:\n" + ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Houve um erro ao inicializar o programa\n"
+                    + "contate o administrador. detales:\n" + ex);
+        }
     }
 }

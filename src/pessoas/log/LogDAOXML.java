@@ -10,15 +10,22 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class LogDAOTXT implements ILogDAO {
+public class LogDAOXML implements ILogDAO {
 
     private File arquivo;
 
-    public LogDAOTXT() {
+    @Override
+    public void carregaArquivo(String path) throws IOException {
+        if (arquivo == null) {
+            arquivo = new File(path + ".xml");
+            if (!arquivo.exists()) {
+                arquivo.createNewFile();
+            }
+        }
     }
 
     @Override
-    public void append(String mensagem) throws IOException {
+    public void append(String mensagem) throws Exception {
         if (arquivo != null) {
             FileWriter w = new FileWriter(arquivo, true);
             BufferedWriter bf = new BufferedWriter(w);
@@ -32,22 +39,12 @@ public class LogDAOTXT implements ILogDAO {
 
     @Override
     public String toString() {
-        return "Arquivo de texto";
-    }
-
-    @Override
-    public void carregaArquivo(String path) throws IOException {
-        if (arquivo == null) {
-            arquivo = new File(path + ".txt");
-            if (!arquivo.exists()) {
-                arquivo.createNewFile();
-            }
-        }
+        return "Arquivo XML";
     }
 
     @Override
     public String getNomeCanonico() {
-        return "pessoas.log.LogDAOTXT";
+        return "pessoas.log.LogDAOXML";
     }
 
 }

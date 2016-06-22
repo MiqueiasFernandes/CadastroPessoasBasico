@@ -53,6 +53,10 @@ public final class ListaPessoasView extends javax.swing.JInternalFrame {
         cbOrdenarTelefone = new javax.swing.JCheckBox();
         btnFechar = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Listagem de pessoas cadastradas");
 
         jScrollPane1.setViewportView(jtPessoas);

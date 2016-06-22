@@ -5,6 +5,8 @@
  */
 package pessoas.log;
 
+import java.io.IOException;
+
 /**
  *
  * @author mfernandes
@@ -12,4 +14,8 @@ package pessoas.log;
 public interface ILogDAO {
 
     public void append(String mensagem) throws Exception;
+
+    public void carregaArquivo(String path) throws IOException;
+
+    public String getNomeCanonico();
 }

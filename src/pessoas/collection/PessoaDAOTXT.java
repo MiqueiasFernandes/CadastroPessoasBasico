@@ -73,6 +73,7 @@ public final class PessoaDAOTXT extends IPessoaDAO<PessoaDAOTXT> {
         boolean remove = limpaArquivo(arquivo);
         if (remove) {
             addAll(listaTemp);
+            notifyObservers();
         }
         return remove;
     }
@@ -91,6 +92,7 @@ public final class PessoaDAOTXT extends IPessoaDAO<PessoaDAOTXT> {
         boolean remove = limpaArquivo(arquivo);
         if (remove) {
             addAll(listaTemp);
+            notifyObservers();
         }
         return remove;
     }
