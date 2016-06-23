@@ -9,7 +9,10 @@ import java.awt.event.ActionEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import pessoas.collection.IUsuarioDAO;
@@ -21,19 +24,19 @@ import pessoas.view.UsuarioView;
  *
  * @author mfernandes
  */
-public final class Login {
+public final class LoginSingleton {
 
     private IUsuarioDAO usuarios;
     private Usuario usuarioLogado = null;
-    private static Login instancia;
+    private static LoginSingleton instancia;
     private MainView view;
 
-    private Login() {
+    private LoginSingleton() {
     }
 
-    public static Login getInstancia() {
+    public static LoginSingleton getInstancia() {
         if (instancia == null) {
-            instancia = new Login();
+            instancia = new LoginSingleton();
         }
         return instancia;
     }
@@ -68,16 +71,16 @@ public final class Login {
             if (validarCampos(userView.getNomeTxt(), userView.getSenhaTxt())) {
                 try {
                     Usuario usuario = new Usuario(userView.getNomeTxt().getText(),
-                            userView.getSenhaTxt().getText(),
+                            new String(userView.getSenhaTxt().getPassword()),
                             administrador);
 
                     usuarios.add(usuario);
                     userView.setVisible(false);
                     userView.dispose();
 
-                    ///gravar em log
                     LogSingleton.getInstancia().addUsuario(usuario);
                     JOptionPane.showMessageDialog(view, "O usuario foi adicionado com sucesso");
+                    autenticar();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(view, ex.getMessage());
                 }
@@ -111,21 +114,28 @@ public final class Login {
         }
     }
 
-    public void sair() {
+    public void sair() throws Exception {
+        LogSingleton.getInstancia().loginUsuario(usuarioLogado, true);
         usuarioLogado = null;
         JOptionPane.showMessageDialog(view, "Bye Bye");
+        entrar();
     }
 
     public void entrar() {
-        JOptionPane.showMessageDialog(view, "Informe o nome de usuario e senha");
-
+        JOptionPane.showMessageDialog(view, "Informe o nome de usuario e senha para entrar");
         UsuarioView userView = new UsuarioView();
-        userView.setTitle("Login");
+        userView.setTitle("Entrar");
         userView.getProntoBtn().addActionListener((ActionEvent e) -> {
             if (validarCampos(userView.getNomeTxt(), userView.getSenhaTxt())) {
-                if (logar(userView.getNomeTxt().getText(), userView.getSenhaTxt().getText())) {
+                if (logar(userView.getNomeTxt().getText(),
+                        new String(userView.getSenhaTxt().getPassword()))) {
                     userView.setVisible(false);
                     userView.dispose();
+                    try {
+                        LogSingleton.getInstancia().loginUsuario(usuarioLogado, false);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(view, "Erro ao persistir log de login\n" + ex);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(view, "O login falhou, tente novamente");
                 }
@@ -144,6 +154,8 @@ public final class Login {
         if (comparaSenhas(usuario.getSenha(), senha)) {
             usuarioLogado = usuario;
             return true;
+        } else {
+            JOptionPane.showMessageDialog(view, "Senha inválida");
         }
         return false;
     }

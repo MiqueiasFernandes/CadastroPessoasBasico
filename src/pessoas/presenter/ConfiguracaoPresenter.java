@@ -12,7 +12,7 @@ import pessoas.log.ILogDAO;
 import pessoas.log.LogDAOTXT;
 import pessoas.log.LogDAOXML;
 import pessoas.log.LogSingleton;
-import pessoas.model.Login;
+import pessoas.model.LoginSingleton;
 import pessoas.view.ConfiguracaoView;
 
 /**
@@ -22,11 +22,11 @@ import pessoas.view.ConfiguracaoView;
 public class ConfiguracaoPresenter {
 
     private ConfiguracaoView view;
-    private Login login;
+    private LoginSingleton login;
 
-    public ConfiguracaoPresenter() {
+    public ConfiguracaoPresenter() throws Exception {
         this.view = new ConfiguracaoView();
-        this.login = Login.getInstancia();
+        this.login = LoginSingleton.getInstancia();
         this.view.getUsuarioLbl().setText(login.getUsuarioLogado().getNome());
 
         this.view.getAdicionarBtn().addActionListener((ActionEvent e) -> {
@@ -38,7 +38,11 @@ public class ConfiguracaoPresenter {
         });
 
         this.view.getSairBtn().addActionListener((ActionEvent e) -> {
-            sairBtn(e);
+            try {
+                sairBtn(e);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "Erro ao efetuar logout\n" + ex);
+            }
         });
 
         this.view.getTipoLogJComboBox().addItem(new LogDAOTXT());
@@ -49,7 +53,6 @@ public class ConfiguracaoPresenter {
         });
 
         this.view.getAdminCheckBox().setEnabled(login.getUsuarioLogado().isAdministrador());
-
         this.view.setVisible(true);
     }
 
@@ -65,15 +68,18 @@ public class ConfiguracaoPresenter {
         return view;
     }
 
-    public void sairBtn(ActionEvent e) {
+    public void sairBtn(ActionEvent e) throws Exception {
         login.sair();
+        view.setVisible(false);
+        view.dispose();
     }
 
     public void adicionarUsuario(ActionEvent e) throws Exception {
         if (login.getUsuarioLogado().isAdministrador()) {
             login.getInstancia().adicionaUsuario(false);
         } else {
-            JOptionPane.showMessageDialog(view, "Você precisa estar logado como administrador para adicionar usuarios!");
+            JOptionPane.showMessageDialog(view,
+                    "Você precisa estar logado como administrador para adicionar usuarios!");
         }
     }
 

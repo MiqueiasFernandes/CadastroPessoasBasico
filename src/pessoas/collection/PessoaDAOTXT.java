@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.TreeSet;
-import pessoas.collection.oserver.Observer;
+import pessoas.collection.observer.Observer;
 import pessoas.model.Pessoa;
 
 public final class PessoaDAOTXT extends IPessoaDAO<PessoaDAOTXT> {
@@ -47,7 +47,7 @@ public final class PessoaDAOTXT extends IPessoaDAO<PessoaDAOTXT> {
     }
 
     @Override
-    public boolean add(Pessoa p) throws IOException {
+    public boolean add(Pessoa p) throws Exception {
         boolean add = false;
         add = this.pessoas.add(p);
         if (add) {
@@ -62,7 +62,7 @@ public final class PessoaDAOTXT extends IPessoaDAO<PessoaDAOTXT> {
     }
 
     @Override
-    public boolean remove(String nome) throws IOException {
+    public boolean remove(String nome) throws Exception {
         TreeSet<Pessoa> listaTemp = new TreeSet<Pessoa>();
         for (Iterator<Pessoa> it = pessoas.iterator(); it.hasNext();) {
             Pessoa pessoa = it.next();
@@ -79,7 +79,7 @@ public final class PessoaDAOTXT extends IPessoaDAO<PessoaDAOTXT> {
     }
 
     @Override
-    public boolean altera(Pessoa pessoaExistente, String nomeAnterior) throws IOException {
+    public boolean altera(Pessoa pessoaExistente, String nomeAnterior) throws Exception {
         TreeSet<Pessoa> listaTemp = new TreeSet<Pessoa>();
         for (Iterator<Pessoa> it = pessoas.iterator(); it.hasNext();) {
             Pessoa pessoa = it.next();
@@ -98,7 +98,7 @@ public final class PessoaDAOTXT extends IPessoaDAO<PessoaDAOTXT> {
     }
 
     @Override
-    public void addAll(TreeSet<Pessoa> pessoas) throws IOException {
+    public void addAll(TreeSet<Pessoa> pessoas) throws Exception {
         FileWriter w = new FileWriter(arquivo, true);
         BufferedWriter bf = new BufferedWriter(w);
         for (Iterator<Pessoa> it = pessoas.iterator(); it.hasNext();) {

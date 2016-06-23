@@ -15,7 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Properties;
-import pessoas.model.Login;
+import pessoas.model.LoginSingleton;
+import pessoas.model.Pessoa;
 import pessoas.model.Usuario;
 
 /**
@@ -56,7 +57,7 @@ public final class LogSingleton {
         properties.store(new FileOutputStream(file), "salvo automaticamente.");
         ///escrever log
         String log = "Tipo de arquivo de log alterado para " + this.logdao;
-        log += " por " + Login.getInstancia().getUsuarioLogado().getNome() + " em ";
+        log += " por " + LoginSingleton.getInstancia().getUsuarioLogado().getNome() + " em ";
         log += getTime();
         this.logdao.append(log);
     }
@@ -64,7 +65,7 @@ public final class LogSingleton {
     public String getTime() {
         Locale ptBR = new Locale("pt", "BR");
         SimpleDateFormat formatador
-                = new SimpleDateFormat("dd'/'MM'/'yyyy' 'HH':'mm':'ss Z", ptBR);
+                = new SimpleDateFormat("'('dd'/'MM'/'yyyy' 'HH':'mm':'ss')'", ptBR);
         String time = formatador.format(Calendar.getInstance().getTime());
         return time;
     }
@@ -94,41 +95,95 @@ public final class LogSingleton {
         logdao.carregaArquivo(logpPath);
     }
 
-    public void incluirContatoLog() {
-
+    String getUsertTime() throws Exception {
+        return " por " + LoginSingleton.getInstancia().getUsuarioLogado().getNome()
+                + " em " + getTime();
     }
 
-    public void excluirContatoLog() {
-
+    public void importaContatos(int sucesso, int incompletos) throws Exception {
+        this.logdao.append("Importação realizada: "
+                + sucesso + " contatos com sucesso, "
+                + incompletos + " incompletos "
+                + getUsertTime());
     }
 
-    public void consultarContatoLog() {
-
+    public void exportaContatos(int sucesso) throws Exception {
+        this.logdao.append("Importação realizada: "
+                + sucesso + " contatos exportados. "
+                + getUsertTime());
     }
 
-    public void importarContatoLog() {
-
+    public void importaContatosFalha(Exception ex) throws Exception {
+        this.logdao.append(
+                "Falha " + ex.getMessage() + " durante a importação " + getUsertTime()
+        );
     }
 
-    public void exportarContatoLog() {
-
+    public void exportaContatosFalha(Exception ex) throws Exception {
+        this.logdao.append(
+                "Falha " + ex.getMessage() + " durante a exportação " + getUsertTime()
+        );
     }
 
-    public void corrigirContatoLog() {
-
+    public void gerenciaContatoComSucesso(String operacao, String pessoa) throws Exception {
+        this.logdao.append(operacao
+                + " do contato " + pessoa
+                + getUsertTime());
     }
 
-    public void alterarTipoLog() {
+    public void gerenciaContatoComInSucesso(String operacao, String pessoa, Exception falha) throws Exception {
+        this.logdao.append("Ocorreu a falha " + falha.getMessage()
+                + " ao realizar a " + operacao
+                + " do contato " + pessoa
+                + getUsertTime());
+    }
 
+    public void incluirContatoLog(String pessoa, Exception falha) throws Exception {
+        if (falha == null) {
+            gerenciaContatoComSucesso("inclusão", pessoa);
+        } else {
+            gerenciaContatoComInSucesso("inclusão", pessoa, falha);
+        }
+    }
+
+    public void excluirContatoLog(String pessoa, Exception falha) throws Exception {
+        if (falha == null) {
+            gerenciaContatoComSucesso("exclusão", pessoa);
+        } else {
+            gerenciaContatoComInSucesso("exclusão", pessoa, falha);
+        }
+    }
+
+    public void consultarContatoLog(String pessoa, Exception falha) throws Exception {
+        if (falha == null) {
+            gerenciaContatoComSucesso("consulta", pessoa);
+        } else {
+            gerenciaContatoComInSucesso("consulta", pessoa, falha);
+        }
+    }
+
+    public void corrigirContatoLog(String pessoa, Exception falha) throws Exception {
+        if (falha == null) {
+            gerenciaContatoComSucesso("correção", pessoa);
+        } else {
+            gerenciaContatoComInSucesso("correção", pessoa, falha);
+        }
     }
 
     public void addUsuario(Usuario usuario) throws Exception {
         String log = "novo usuario ";
-        Usuario u = Login.getInstancia().getUsuario();
+        Usuario u = LoginSingleton.getInstancia().getUsuario();
         if (u != null) {
             log += usuario + " adicionado por ";
-            log += Login.getInstancia().getUsuarioLogado().getNome();
+            log += LoginSingleton.getInstancia().getUsuarioLogado().getNome();
         }
+        log += " em " + getTime();
+        logdao.append(log);
+    }
+
+    public void loginUsuario(Usuario usuario, boolean saiu) throws Exception {
+        String log = "usuario ";
+        log += usuario + (saiu ? " fez logoff " : " entrou ");
         log += " em " + getTime();
         logdao.append(log);
     }

@@ -13,10 +13,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pessoas.collection.IPessoaDAO;
-import pessoas.collection.oserver.Observer;
+import pessoas.collection.observer.Observer;
 import pessoas.model.Pessoa;
 import pessoas.view.ListaPessoasView;
 
@@ -30,7 +32,7 @@ public final class ListaPessoasPresenter implements Observer {
     private IPessoaDAO pessoas;
     private ListaPessoasView view;
 
-    public ListaPessoasPresenter(IPessoaDAO pessoas) {
+    public ListaPessoasPresenter(IPessoaDAO pessoas) throws Exception {
         try {
             view = new ListaPessoasView();
             Object colunas[] = {"Nome", "Telefone"};
@@ -44,7 +46,11 @@ public final class ListaPessoasPresenter implements Observer {
             view.getCbOrdenarTelefone().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ordenarPorTelefone(e);
+                    try {
+                        ordenarPorTelefone(e);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(view, "Houve um erro.\n" + ex);
+                    }
                 }
             });
 
@@ -74,7 +80,7 @@ public final class ListaPessoasPresenter implements Observer {
         }
     }
 
-    public void ordenarPorTelefone(ActionEvent e) {
+    public void ordenarPorTelefone(ActionEvent e) throws Exception {
         if (view.getCbOrdenarTelefone().isSelected()) {
             ArrayList<Pessoa> lista = new ArrayList<Pessoa>(pessoas.getTreeSet());
             Collections.sort(lista, new ComparadorDeTelefonePessoa());

@@ -9,8 +9,9 @@ import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import pessoas.collection.IPessoaDAO;
-import pessoas.model.Login;
+import pessoas.model.LoginSingleton;
 import pessoas.proxy.PessoaDAOProxy;
 import pessoas.view.MainView;
 
@@ -26,8 +27,9 @@ public class MainPresenter {
     public MainPresenter() throws FileNotFoundException, IOException, Exception {
         view = new MainView();
 
-        Login.getInstancia().setView(view);
-        Login.getInstancia().carregaDAOUsuario();
+        LoginSingleton login = LoginSingleton.getInstancia();
+        login.setView(view);
+        login.carregaDAOUsuario();
 
         pessoas = new PessoaDAOProxy(view);
 
@@ -38,11 +40,19 @@ public class MainPresenter {
         });
 
         view.getListarPessoasJItem().addActionListener((ActionEvent e) -> {
-            listarPessoas(e);
+            try {
+                listarPessoas(e);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "Erro: " + ex);
+            }
         });
 
         view.getConfigurarJItem().addActionListener((ActionEvent e) -> {
-            configurar(e);
+            try {
+                configurar(e);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "Erro: " + ex);
+            }
         });
 
         view.getSairJItem().addActionListener((ActionEvent e) -> {
@@ -58,18 +68,30 @@ public class MainPresenter {
     }
 
     private void adicionar(ActionEvent e) {
-        InclusaoPessoaPresenter presenterInclusaoPessoa = new InclusaoPessoaPresenter(pessoas);
-        addFrame(presenterInclusaoPessoa.getView());
+        if (LoginSingleton.getInstancia().estaLogado()) {
+            InclusaoPessoaPresenter presenterInclusaoPessoa = new InclusaoPessoaPresenter(pessoas);
+            addFrame(presenterInclusaoPessoa.getView());
+        } else {
+            JOptionPane.showMessageDialog(view, "É necessario logar");
+        }
     }
 
-    private void listarPessoas(ActionEvent e) {
-        ListaPessoasPresenter listaPessoas = new ListaPessoasPresenter(pessoas);
-        addFrame(listaPessoas.getView());
+    private void listarPessoas(ActionEvent e) throws Exception {
+        if (LoginSingleton.getInstancia().estaLogado()) {
+            ListaPessoasPresenter listaPessoas = new ListaPessoasPresenter(pessoas);
+            addFrame(listaPessoas.getView());
+        } else {
+            JOptionPane.showMessageDialog(view, "É necessario logar");
+        }
     }
 
-    private void configurar(ActionEvent e) {
-        ConfiguracaoPresenter configuracaoPresenter = new ConfiguracaoPresenter();
-        addFrame(configuracaoPresenter.getView());
+    private void configurar(ActionEvent e) throws Exception {
+        if (LoginSingleton.getInstancia().estaLogado()) {
+            ConfiguracaoPresenter configuracaoPresenter = new ConfiguracaoPresenter();
+            addFrame(configuracaoPresenter.getView());
+        } else {
+            JOptionPane.showMessageDialog(view, "É necessario logar");
+        }
     }
 
     private void sair(ActionEvent e) {

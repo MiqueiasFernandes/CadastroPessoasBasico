@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pessoas.collection.oserver;
+package pessoas.collection.observer;
 
 import java.util.TreeSet;
 import pessoas.model.Pessoa;
